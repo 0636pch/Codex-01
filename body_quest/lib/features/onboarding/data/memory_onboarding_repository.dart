@@ -7,9 +7,28 @@ class MemoryOnboardingRepository implements OnboardingRepository {
   CharacterInput? character;
 
   @override
+  Future<String> resolveStartRoute() async => '/welcome';
+
+  @override
   Future<void> createAccount(String email, String password) async {
-    await Future<void>.delayed(const Duration(milliseconds: 350));
+    await Future<void>.delayed(const Duration(milliseconds: 100));
   }
+
+  @override
+  Future<void> signIn(String email, String password) async {
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+  }
+
+  @override
+  Future<void> sendPasswordReset(String email) async {
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+  }
+
+  @override
+  Future<void> saveConsents({required bool marketing}) async {}
+
+  @override
+  Future<void> signOut() async {}
 
   @override
   Future<void> saveProfile(ProfileInput input) async {

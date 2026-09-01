@@ -1,59 +1,61 @@
 # Body Quest
 
-운동·식사·체중·인바디 기록을 RPG 캐릭터 성장으로 보여주는 모바일 운동 일지 앱의 설계 저장소입니다.
+> 게임 캐릭터가 아니라 현실의 내 몸을 레벨업한다.
 
-## 제품 한눈에 보기
+운동·음식·신체 기록을 RPG의 경험치, 레벨, 능력치와 캐릭터 성장으로 연결하는 Flutter 모바일 앱입니다.
 
-Body Quest는 체중 감량 결과보다 **운동하고 기록하는 꾸준한 행동**을 보상합니다. 사용자가 기록을 남기면 경험치와 능력치가 오르고, 장기적인 신체 변화 추세는 캐릭터의 성장 단계에 천천히 반영됩니다.
+## 현재 상태
 
-- 전체 레벨과 경험치: 꾸준한 기록 및 퀘스트 수행의 누적 결과
-- 능력치: 근력, 지구력, 꾸준함, 회복력
-- 캐릭터: 사용자가 직접 고른 2D 외형과 단계적인 체형 변화
-- 기록: 운동, 식사·영양, 체중, 선택적 인바디
-- 동기 부여: 일일·주간 퀘스트, 연속 기록, 의상·장비·칭호 해금
+STEP 1~9의 시스템 설계를 완료했고, STEP 10의 첫 Flutter 코드를 `body_quest/`에 구현했습니다.
 
-이 앱은 의료 진단이나 처방을 제공하지 않습니다. 칼로리는 추정값이며, 체중이나 외모를 좋고 나쁨으로 평가하지 않습니다.
+현재 실행 흐름:
 
-## 1차 MVP 범위
+`회원가입 → 프로필 입력 → 선택적 인바디 → 캐릭터 생성 → HOME`
 
-Android를 우선 지원하되 React Native 기반으로 iOS 확장을 고려합니다. MVP에는 다음이 포함됩니다.
+- Flutter + Riverpod + go_router
+- Firebase Authentication + Cloud Firestore
+- Firebase 연결 전 UI 확인용 메모리 모드
+- Firebase 연결 후 실제 저장 모드
+- Firestore 규칙과 색인 초안
+- GitHub Actions 자동 분석 및 위젯 테스트
 
-1. 이메일 회원가입·로그인과 필수 동의
-2. 기본 정보와 선택적 인바디 입력
-3. 얼굴형, 머리, 피부색, 체형, 운동복을 조합하는 2D 캐릭터
-4. 메인 대시보드와 운동·식사·체중 기록
-5. 경험치, 네 가지 능력치, 일일·주간 퀘스트, 연속 기록
-6. 성장 그래프와 단계적인 캐릭터 성장
-7. 설정, 동의 내역 확인, 데이터 내보내기 및 계정·데이터 삭제 요청
+## 문서
 
-## 나중에 추가할 기능
+- [STEP 1 앱 구조](docs/STEP_01_APP_ARCHITECTURE.md)
+- [STEP 2 화면 구조](docs/STEP_02_SCREEN_STRUCTURE.md)
+- [STEP 3 Firebase DB](docs/STEP_03_FIREBASE_DATA_MODEL.md)
+- [STEP 4 EXP](docs/STEP_04_EXP_SYSTEM.md)
+- [STEP 5 레벨](docs/STEP_05_LEVEL_SYSTEM.md)
+- [STEP 6 캐릭터 변화](docs/STEP_06_CHARACTER_ALGORITHM.md)
+- [STEP 7 칼로리](docs/STEP_07_CALORIE_SYSTEM.md)
+- [STEP 8 개발 순서](docs/STEP_08_MVP_ROADMAP.md)
+- [STEP 9 폴더 구조](docs/STEP_09_FLUTTER_STRUCTURE.md)
+- [STEP 10 첫 코드](docs/STEP_10_FIRST_FLUTTER_CODE.md)
 
-- iOS 정식 지원 및 플랫폼별 품질 개선
-- 소셜, 길드, 친구 도전, 리더보드(안전성과 비교 스트레스 검토 후)
-- 웨어러블·헬스 플랫폼 자동 연동
-- 음식 데이터베이스 검색, 바코드·사진 기반 입력
-- 더 많은 캐릭터 파츠, 애니메이션, 시즌 콘텐츠
-- 얼굴 사진 기반 기능(별도 동의·보안·삭제 정책 검토 전에는 제외)
-- 고급 리포트와 전문가 공유 기능
+## 실행
 
-## 문서 안내
+```bash
+cd body_quest
+flutter create .
+flutter pub get
+flutter run -d chrome
+```
 
-- [제품 명세](docs/PRODUCT_SPEC.md): 대상 사용자, 제품 원칙, MVP 요구사항
-- [사용자 흐름](docs/USER_FLOW.md): 가입부터 기록·성장·삭제까지의 흐름
-- [화면 목록](docs/SCREEN_LIST.md): 화면별 목적, 데이터, 주요 상태
-- [데이터 모델](docs/DATA_MODEL.md): 저장 데이터와 화면 사이의 관계
-- [게임 시스템](docs/GAME_SYSTEM.md): 경험치, 능력치, 퀘스트, 보상 규칙
-- [개인정보 및 안전](docs/PRIVACY_AND_SAFETY.md): 민감정보, 동의, 삭제, 안전 문구
-- [MVP 로드맵](docs/MVP_ROADMAP.md): 개발 순서와 완료 기준
+기본 실행은 Firebase 없이 화면 흐름을 확인하는 메모리 모드입니다.
 
-## 공통 제품 원칙
+Firebase 프로젝트 연결 후:
 
-- 특정 상용 RPG의 캐릭터, 명칭, 화면을 복제하지 않는다.
-- 결과보다 안전하고 반복 가능한 행동에 보상한다.
-- 섭취 칼로리와 활동 칼로리를 분리하고 모두 추정값임을 표시한다.
-- 한 번의 체중·식사 기록으로 캐릭터 체형이 급변하지 않는다.
-- 건강 데이터는 최소한으로 수집하며 사용자가 확인·삭제할 수 있게 한다.
+```bash
+flutterfire configure
+flutter run --dart-define=USE_FIREBASE=true
+```
 
-## 추후 결정 사항
+세부 설정은 [앱 실행 안내](body_quest/README.md)를 확인하세요.
 
-각 문서 끝의 `추후 결정 사항`을 모아 제품 책임자가 결정합니다. 특히 인증 제공자, 데이터 저장 위치, 정확한 경험치 수치, 영양 안전 알림 기준, 캐릭터 그래픽 제작 방식은 구현 전에 확정해야 합니다.
+## 안전 원칙
+
+- 운동을 무한히 많이 할수록 EXP가 폭증하지 않게 제한한다.
+- 극단적인 칼로리 적자를 보상하지 않는다.
+- 단일 체중·인바디 측정으로 캐릭터가 급변하지 않는다.
+- 건강 수치를 외모의 성공·실패로 평가하지 않는다.
+- 서비스 계정 키나 비밀키를 저장소에 올리지 않는다.

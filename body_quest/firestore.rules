@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    match /users/{uid} {
+      allow read: if owner(uid);
+      allow create: if owner(uid)
+        && request.resource.data.level == 1
+        && request.resource.data.totalExp == 0;
+      allow update: if owner(uid)
+        && request.resource.data.level == resource.data.level
+        && request.resource.data.totalExp == resource.data.totalExp;
+
+      match /{document=**} {
+        allow read, write: if owner(uid);
+      }
+    }
+
+    match /exercises/{id} { allow read: if signedIn(); }
+    match /foods/{id} { allow read: if signedIn(); }
+    match /levelDefinitions/{id} { allow read: if signedIn(); }
+    match /characterAssets/{id} { allow read: if signedIn(); }
+  }
+}

@@ -61,9 +61,9 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const NavigationBar(
+      bottomNavigationBar: NavigationBar(
         selectedIndex: 0,
-        destinations: [
+        destinations: const [
           NavigationDestination(icon: Icon(Icons.home), label: 'HOME'),
           NavigationDestination(icon: Icon(Icons.fitness_center), label: 'WORKOUT'),
           NavigationDestination(icon: Icon(Icons.restaurant), label: 'FOOD'),

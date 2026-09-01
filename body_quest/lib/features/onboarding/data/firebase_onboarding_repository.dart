@@ -13,6 +13,25 @@ class FirebaseOnboardingRepository implements OnboardingRepository {
   String get uid => auth.currentUser!.uid;
 
   @override
+  Future<String> resolveStartRoute() async {
+    final user = auth.currentUser;
+    if (user == null) return '/welcome';
+
+    final snapshot = await firestore.collection('users').doc(user.uid).get();
+    if (!snapshot.exists) return '/consent';
+
+    final step = snapshot.data()?['onboardingStep'] as String?;
+    return switch (step) {
+      'consent' => '/consent',
+      'profile' => '/profile',
+      'inbody' => '/inbody',
+      'character' => '/character',
+      'completed' => '/home',
+      _ => '/consent',
+    };
+  }
+
+  @override
   Future<void> createAccount(String email, String password) async {
     final credential = await auth.createUserWithEmailAndPassword(
       email: email.trim(),
@@ -21,7 +40,7 @@ class FirebaseOnboardingRepository implements OnboardingRepository {
     await firestore.collection('users').doc(credential.user!.uid).set({
       'uid': credential.user!.uid,
       'email': email.trim(),
-      'onboardingStep': 'profile',
+      'onboardingStep': 'consent',
       'onboardingCompleted': false,
       'level': 1,
       'totalExp': 0,
@@ -37,6 +56,52 @@ class FirebaseOnboardingRepository implements OnboardingRepository {
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
+
+  @override
+  Future<void> signIn(String email, String password) async {
+    await auth.signInWithEmailAndPassword(
+      email: email.trim(),
+      password: password,
+    );
+  }
+
+  @override
+  Future<void> sendPasswordReset(String email) {
+    return auth.sendPasswordResetEmail(email: email.trim());
+  }
+
+  @override
+  Future<void> saveConsents({required bool marketing}) async {
+    final user = firestore.collection('users').doc(uid);
+    final consents = user.collection('consents');
+    final batch = firestore.batch();
+    final now = FieldValue.serverTimestamp();
+
+    for (final type in ['terms', 'privacy', 'healthData']) {
+      batch.set(consents.doc(type), {
+        'type': type,
+        'accepted': true,
+        'version': '1.0',
+        'acceptedAt': now,
+        'updatedAt': now,
+      });
+    }
+    batch.set(consents.doc('marketing'), {
+      'type': 'marketing',
+      'accepted': marketing,
+      'version': '1.0',
+      'acceptedAt': marketing ? now : null,
+      'updatedAt': now,
+    });
+    batch.update(user, {
+      'onboardingStep': 'profile',
+      'updatedAt': now,
+    });
+    await batch.commit();
+  }
+
+  @override
+  Future<void> signOut() => auth.signOut();
 
   @override
   Future<void> saveProfile(ProfileInput input) async {

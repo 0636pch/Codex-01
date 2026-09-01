@@ -1,0 +1,21 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "workoutSessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"fieldPath": "status", "order": "ASCENDING"},
+        {"fieldPath": "startedAt", "order": "DESCENDING"}
+      ]
+    },
+    {
+      "collectionGroup": "foodLogs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"fieldPath": "dateId", "order": "ASCENDING"},
+        {"fieldPath": "eatenAt", "order": "ASCENDING"}
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

@@ -24,9 +24,13 @@ jobs:
           cache: true
       - name: Generate platform scaffold
         run: flutter create . --platforms=android,ios,web
+      - name: Configure Firebase Android
+        run: bash tool/configure_android.sh
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze
         run: flutter analyze
       - name: Test
         run: flutter test
+      - name: Build Android debug APK
+        run: flutter build apk --debug

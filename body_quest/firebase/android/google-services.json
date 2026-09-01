@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552412347186",
+    "project_id": "body-quest-415d3",
+    "storage_bucket": "body-quest-415d3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552412347186:android:af48aecb5e3a6b3032f52b",
+        "android_client_info": {
+          "package_name": "com.bodyquest.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADKjY_RhNJhROvNSRWE4WVku-YAiZY_zw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
